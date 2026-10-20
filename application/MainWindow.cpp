@@ -4,9 +4,15 @@
 #include "DataConversion.hpp"
 
 #include <vtkGenericOpenGLRenderWindow.h>
-#include <vtkImageActor.h>
+#include <vtkActor.h>
+#include <vtkCellArray.h>
 #include <vtkImageData.h>
-#include <vtkImageProperty.h>
+#include <vtkLookupTable.h>
+#include <vtkPointData.h>
+#include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
 
@@ -34,14 +40,39 @@ void MainWindow::setup_vtk_pipeline()
 {
   vtkSmartPointer<vtkImageData> image = DataConversion::create_image_data();
 
-  vtkSmartPointer<vtkImageActor> imageActor =
-    vtkSmartPointer<vtkImageActor>::New();
-  imageActor->SetInputData(image);
-  imageActor->GetProperty()->SetColorWindow(255.0);
-  imageActor->GetProperty()->SetColorLevel(127.5);
+  // One vertex cell per voxel so VTK draws points instead of a filled image.
+  auto points = vtkSmartPointer<vtkPoints>::New();
+  auto vertices = vtkSmartPointer<vtkCellArray>::New();
+  const vtkIdType numPoints = image->GetNumberOfPoints();
+  points->SetNumberOfPoints(numPoints);
+  for (vtkIdType i = 0; i < numPoints; ++i)
+  {
+    points->SetPoint(i, image->GetPoint(i));
+    vertices->InsertNextCell(1, &i);
+  }
+
+  auto cloud = vtkSmartPointer<vtkPolyData>::New();
+  cloud->SetPoints(points);
+  cloud->SetVerts(vertices);
+  cloud->GetPointData()->SetScalars(image->GetPointData()->GetScalars());
+
+  auto lut = vtkSmartPointer<vtkLookupTable>::New();
+  lut->SetRange(0.0, 255.0);
+  lut->SetValueRange(0.0, 1.0);
+  lut->SetSaturationRange(0.0, 0.0);
+  lut->Build();
+
+  auto mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+  mapper->SetInputData(cloud);
+  mapper->SetLookupTable(lut);
+  mapper->SetScalarRange(0.0, 255.0);
+
+  auto cloudActor = vtkSmartPointer<vtkActor>::New();
+  cloudActor->SetMapper(mapper);
+  cloudActor->GetProperty()->SetPointSize(3.0);
 
   mRenderer = vtkSmartPointer<vtkRenderer>::New();
-  mRenderer->AddActor(imageActor);
+  mRenderer->AddActor(cloudActor);
 
   vtkSmartPointer<vtkGenericOpenGLRenderWindow> window =
     vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
