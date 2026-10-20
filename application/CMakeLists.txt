@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.23)
 project(QtVTK LANGUAGES CXX VERSION 1.0.0)
 
 find_package(Qt6 COMPONENTS Widgets Concurrent Gui OpenGLWidgets REQUIRED)
-find_package(VTK REQUIRED)
+find_package(VTK REQUIRED COMPONENTS
+    CommonCore
+    CommonDataModel
+    GUISupportQt
+    RenderingCore
+    RenderingOpenGL2
+)
 
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(CMAKE_AUTOMOC ON)
@@ -28,8 +34,18 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Widgets
     Qt6::Gui
     Qt6::OpenGL
-    ${VTK_LIBRARIES}
+    Qt6::OpenGLWidgets
+    VTK::GUISupportQt
+    VTK::RenderingCore
+    VTK::RenderingOpenGL2
     DataConversion
     Visualization
 )
 
+vtk_module_autoinit(
+    TARGETS ${PROJECT_NAME}
+    MODULES
+        VTK::GUISupportQt
+        VTK::RenderingCore
+        VTK::RenderingOpenGL2
+)

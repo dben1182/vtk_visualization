@@ -1,14 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <vtkVersion.h>
-#include <vtkSmartPointer.h>
-#include <vtkActor.h>
-#include <vtkRenderer.h>
-#include <vtkRenderWindow.h>
-#include <vtkRenderWindowInteractor.h>
+
+#include "DataConversion.hpp"
+
 #include <vtkGenericOpenGLRenderWindow.h>
-#include <QVTKOpenGLNativeWidget.h>
-#include <vtkPolyDataMapper.h>
+#include <vtkImageActor.h>
+#include <vtkImageData.h>
+#include <vtkImageProperty.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
 
 MainWindow::MainWindow(QWidget* parent) :
   QMainWindow(parent),
@@ -32,26 +32,21 @@ MainWindow::~MainWindow()
 
 void MainWindow::setup_vtk_pipeline()
 {
-  mConeSource = vtkSmartPointer<vtkConeSource>::New();
-  mConeSource->SetHeight(3.0);
-  mConeSource->SetRadius(1.0);
-  mConeSource->SetResolution(50);
+  vtkSmartPointer<vtkImageData> image = DataConversion::create_image_data();
 
-  vtkSmartPointer<vtkPolyDataMapper> mapper =vtkSmartPointer<vtkPolyDataMapper>::New();
-  mapper->SetInputConnection(mConeSource->GetOutputPort());
-
-  vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-  actor->SetMapper(mapper);
+  vtkSmartPointer<vtkImageActor> imageActor =
+    vtkSmartPointer<vtkImageActor>::New();
+  imageActor->SetInputData(image);
+  imageActor->GetProperty()->SetColorWindow(255.0);
+  imageActor->GetProperty()->SetColorLevel(127.5);
 
   mRenderer = vtkSmartPointer<vtkRenderer>::New();
-  mRenderer->AddActor(actor);
+  mRenderer->AddActor(imageActor);
 
-
-  vtkSmartPointer<vtkGenericOpenGLRenderWindow> window = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
+  vtkSmartPointer<vtkGenericOpenGLRenderWindow> window =
+    vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
   window->AddRenderer(mRenderer);
 
   mQVtkWidget->setRenderWindow(window);
-
   mRenderer->ResetCamera();
 }
-

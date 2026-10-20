@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QSurfaceFormat>
 #include "mainwindow.h"
 #include <QVTKOpenGLNativeWidget.h>
 

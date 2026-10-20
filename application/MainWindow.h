@@ -4,11 +4,12 @@
 #include <QMainWindow>
 #include <QVTKOpenGLNativeWidget.h>
 #include <vtkSmartPointer.h>
-#include <vtkConeSource.h>
 
 namespace Ui {
   class MainWindow;
 }
+
+class vtkRenderer;
 
 class MainWindow : public QMainWindow
 {
@@ -23,7 +24,6 @@ private:
   Ui::MainWindow *ui;
   QVTKOpenGLNativeWidget* mQVtkWidget;
 
-  vtkSmartPointer<vtkConeSource> mConeSource;
   vtkSmartPointer<vtkRenderer> mRenderer;
 };
 
