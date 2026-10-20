@@ -29,6 +29,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt6::Gui
     Qt6::OpenGL
     ${VTK_LIBRARIES}
+    DataConversion
+    Visualization
 )
-
 

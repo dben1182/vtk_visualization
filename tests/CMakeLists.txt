@@ -3,7 +3,7 @@ include(GoogleTest)
 add_executable(DataConversion_unittests)
 target_sources(DataConversion_unittests
     PRIVATE
-        DataGenerator_unittests.cpp
+        DataConversion_unittests.cpp
 )
 target_compile_features(DataConversion_unittests PRIVATE cxx_std_20)
 target_include_directories(DataConversion_unittests
@@ -15,3 +15,4 @@ target_link_libraries(DataConversion_unittests
     DataConversion
 )
 
+gtest_discover_tests(DataConversion_unittests)
