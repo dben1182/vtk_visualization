@@ -21,4 +21,5 @@ FetchContent_MakeAvailable(googletest)
 # ----------------------------
 
 add_subdirectory(application)
-
+add_subdirectory(Visualization)
+add_subdirectory(DataConversion)
