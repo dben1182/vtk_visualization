@@ -1,5 +1,20 @@
 include(GoogleTest)
 
+find_package(VTK REQUIRED COMPONENTS CommonDataModel)
+
+add_library(TestData
+    testData.cpp
+)
+target_include_directories(TestData
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+target_compile_features(TestData PUBLIC cxx_std_20)
+target_link_libraries(TestData
+    PUBLIC
+        VTK::CommonDataModel
+)
+
 add_executable(DataConversion_unittests)
 target_sources(DataConversion_unittests
     PRIVATE
@@ -13,6 +28,7 @@ target_include_directories(DataConversion_unittests
 target_link_libraries(DataConversion_unittests
     GTest::gtest_main
     DataConversion
+    TestData
 )
 
 gtest_discover_tests(DataConversion_unittests)

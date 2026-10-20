@@ -14,4 +14,6 @@ target_compile_features(DataConversion PUBLIC cxx_std_20)
 target_link_libraries(DataConversion
     PUBLIC
         VTK::CommonDataModel
+    PRIVATE
+        TestData
 )
