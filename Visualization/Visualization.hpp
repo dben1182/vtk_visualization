@@ -5,11 +5,14 @@
 
 class vtkActor;
 class vtkPolyData;
+class vtkThresholdPoints;
 
 namespace Visualization {
 
 // vtkThresholdPoints keeps points with Intensity >= intensityCutoffThreshold.
-vtkSmartPointer<vtkActor> create_threshold_actor(vtkPolyData* cloud, double intensityCutoffThreshold);
+// If outFilter is provided it receives the threshold filter so the cutoff can be updated later.
+vtkSmartPointer<vtkActor> create_threshold_actor(vtkPolyData* cloud, double intensityCutoffThreshold,
+                                                 vtkSmartPointer<vtkThresholdPoints>* outFilter = nullptr);
 
 }
 

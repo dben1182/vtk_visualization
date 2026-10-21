@@ -10,7 +10,7 @@
 #include <vtkPolyData.h>
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
-
+#include <vtkThresholdPoints.h>
 MainWindow::MainWindow(QWidget* parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
@@ -31,12 +31,21 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
+void MainWindow::on_cutoff_threshold_slider_valueChanged(int value)
+{
+  if (!mThresholdFilter)
+    return;
+
+  mThresholdFilter->SetUpperThreshold(static_cast<double>(value));
+  mQVtkWidget->renderWindow()->Render();
+}
+
 void MainWindow::setup_vtk_pipeline()
 {
-  const double intensityCutoffThreshold = 254;
+  const int intensityCutoffThreshold = 200;
 
   auto cloud = DataConversion::create_poly_data(TestData::testData1());
-  auto cloudActor = Visualization::create_threshold_actor(cloud, intensityCutoffThreshold);
+  auto cloudActor = Visualization::create_threshold_actor(cloud, intensityCutoffThreshold, &mThresholdFilter);
 
   mRenderer = vtkSmartPointer<vtkRenderer>::New();
   mRenderer->AddActor(cloudActor);
@@ -46,4 +55,7 @@ void MainWindow::setup_vtk_pipeline()
 
   mQVtkWidget->setRenderWindow(window);
   mRenderer->ResetCamera();
+
+  ui->cutoff_threshold_slider->setRange(0, 255);
+  ui->cutoff_threshold_slider->setValue(intensityCutoffThreshold);
 }

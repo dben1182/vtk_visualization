@@ -14,7 +14,7 @@
    <string>Qt VTK </string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
+   <layout class="QGridLayout" name="gridLayout" columnstretch="2,1">
     <item row="1" column="0">
      <widget class="QFrame" name="frame">
       <property name="frameShape">
@@ -25,6 +25,38 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="1">
+     <widget class="QFrame" name="frame_2">
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <widget class="QSlider" name="cutoff_threshold_slider">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>160</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="tickPosition">
+        <enum>QSlider::TickPosition::TicksBelow</enum>
+       </property>
+       <property name="tickInterval">
+        <number>15</number>
+       </property>
+      </widget>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -33,7 +65,7 @@
      <x>0</x>
      <y>0</y>
      <width>533</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
