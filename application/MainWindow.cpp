@@ -33,9 +33,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_cutoff_threshold_slider_valueChanged(int value)
 {
-  if (!mThresholdFilter)
-    return;
+  // Update the cutoff threshold label with the new value
+  ui->cutoff_threshold_label->setText(QString("cutoff threshold: %1").arg(value));
 
+  // Update the threshold filter with the new value
+  if (!mThresholdFilter)
+    return; // If the threshold filter is not initialized, do nothing
+
+  // Set the new upper threshold for the filter
   mThresholdFilter->SetUpperThreshold(static_cast<double>(value));
   mQVtkWidget->renderWindow()->Render();
 }
