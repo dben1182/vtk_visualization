@@ -1,4 +1,4 @@
-find_package(VTK REQUIRED COMPONENTS CommonDataModel)
+find_package(VTK REQUIRED COMPONENTS CommonCore CommonDataModel)
 
 add_library(DataConversion
     DataConversion.cpp
@@ -13,7 +13,6 @@ target_compile_features(DataConversion PUBLIC cxx_std_20)
 
 target_link_libraries(DataConversion
     PUBLIC
+        VTK::CommonCore
         VTK::CommonDataModel
-    PRIVATE
-        TestData
 )

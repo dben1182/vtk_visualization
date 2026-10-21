@@ -5,6 +5,7 @@ find_package(Qt6 COMPONENTS Widgets Concurrent Gui OpenGLWidgets REQUIRED)
 find_package(VTK REQUIRED COMPONENTS
     CommonCore
     CommonDataModel
+    FiltersCore
     GUISupportQt
     RenderingCore
     RenderingOpenGL2
@@ -40,6 +41,7 @@ target_link_libraries(${PROJECT_NAME}
     VTK::RenderingOpenGL2
     DataConversion
     Visualization
+    TestData
 )
 
 vtk_module_autoinit(

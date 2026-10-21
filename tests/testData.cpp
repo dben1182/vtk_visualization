@@ -1,45 +1,27 @@
 #include "testData.hpp"
 
-#include <vtkImageData.h>
+#include <random>
 
-#include <algorithm>
-
-namespace {
-
-vtkSmartPointer<vtkImageData> createPlanes(int depth)
+std::vector<Point> TestData::testData1()
 {
-    constexpr int width = 100;
-    constexpr int height = 100;
+    std::mt19937 rng{std::random_device{}()};
+    std::uniform_real_distribution<double> intensity(0.0, 255.0);
 
-    auto image = vtkSmartPointer<vtkImageData>::New();
-    image->SetDimensions(width, height, depth);
-    image->SetOrigin(0.0, 0.0, 0.0);
-    image->SetSpacing(1.0, 1.0, 1.0);
-    image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
-
-    for (int z = 0; z < depth; ++z)
+    std::vector<Point> points;
+    for (int z = 0; z < 100; ++z)
     {
-        for (int y = 0; y < height; ++y)
+        for (int y = 0; y < 100; ++y)
         {
-            for (int x = 0; x < width; ++x)
+            for (int x = 0; x < 100; ++x)
             {
-                image->SetScalarComponentFromDouble(
-                    x, y, z, 0, std::min(x, 255));
+                Point p;
+                p.x = x;
+                p.y = y;
+                p.z = z;
+                p.Intensity = intensity(rng);
+                points.push_back(p);
             }
         }
     }
-
-    return image;
-}
-
-}
-
-vtkSmartPointer<vtkImageData> TestData::testData1()
-{
-    return createPlanes(1);
-}
-
-vtkSmartPointer<vtkImageData> TestData::testData2()
-{
-    return createPlanes(100);
+    return points;
 }

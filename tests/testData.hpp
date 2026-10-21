@@ -1,17 +1,14 @@
 #ifndef TESTDATA_HPP
 #define TESTDATA_HPP
 
-#include <vtkSmartPointer.h>
+#include "Point.hpp"
 
-class vtkImageData;
+#include <vector>
 
 namespace TestData {
 
-// 100 x 100 x 1 plane; intensity equals the x index.
-vtkSmartPointer<vtkImageData> testData1();
-
-// 100 x 100 x 100 volume of identical planes; intensity equals the x index.
-vtkSmartPointer<vtkImageData> testData2();
+// 3 planes (z = 0, 1, 2) of 3x3 points with random Intensity in [0, 255].
+std::vector<Point> testData1();
 
 }
 
