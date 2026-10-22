@@ -68,11 +68,19 @@ void MainWindow::on_point_size_slider_valueChanged(int value)
   mQVtkWidget->renderWindow()->Render();
 }
 
+void MainWindow::on_reset_button_clicked()
+{
+  // Setting the sliders emits valueChanged, which updates labels and the render
+  ui->cutoff_threshold_slider->setValue(kDefaultCutoffThreshold);
+  ui->opacity_slider->setValue(kDefaultOpacityPercent);
+  ui->point_size_slider->setValue(kDefaultPointSize);
+}
+
 void MainWindow::setup_vtk_pipeline()
 {
-  const int intensityCutoffThreshold = 200;
-  const double opacity = 0.5;
-  const double pointSize = 8.0;
+  const int intensityCutoffThreshold = kDefaultCutoffThreshold;
+  const double opacity = kDefaultOpacityPercent / 100.0;
+  const double pointSize = static_cast<double>(kDefaultPointSize);
 
   auto cloud = DataConversion::create_poly_data(TestData::testData1());
   mCloudActor = Visualization::create_threshold_actor(cloud, intensityCutoffThreshold, &mThresholdFilter, opacity, pointSize);

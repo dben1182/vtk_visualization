@@ -25,8 +25,13 @@ private slots:
   void on_cutoff_threshold_slider_valueChanged(int value);
     void on_opacity_slider_valueChanged(int value);
   void on_point_size_slider_valueChanged(int value);
+  void on_reset_button_clicked();
 
-  private:
+private:
+  static constexpr int kDefaultCutoffThreshold = 200;
+  static constexpr int kDefaultOpacityPercent = 50;
+  static constexpr int kDefaultPointSize = 8;
+
   void setup_vtk_pipeline();
   Ui::MainWindow *ui;
   QVTKOpenGLNativeWidget* mQVtkWidget;
