@@ -57,13 +57,25 @@ void MainWindow::on_opacity_slider_valueChanged(int value)
   mQVtkWidget->renderWindow()->Render();
 }
 
+void MainWindow::on_point_size_slider_valueChanged(int value)
+{
+  ui->point_size_label->setText(QString("point size: %1").arg(value));
+
+  if (!mCloudActor)
+    return;
+
+  mCloudActor->GetProperty()->SetPointSize(static_cast<double>(value));
+  mQVtkWidget->renderWindow()->Render();
+}
+
 void MainWindow::setup_vtk_pipeline()
 {
   const int intensityCutoffThreshold = 200;
   const double opacity = 0.5;
+  const double pointSize = 8.0;
 
   auto cloud = DataConversion::create_poly_data(TestData::testData1());
-  mCloudActor = Visualization::create_threshold_actor(cloud, intensityCutoffThreshold, &mThresholdFilter, opacity);
+  mCloudActor = Visualization::create_threshold_actor(cloud, intensityCutoffThreshold, &mThresholdFilter, opacity, pointSize);
 
   mRenderer = vtkSmartPointer<vtkRenderer>::New();
   mRenderer->AddActor(mCloudActor);
@@ -79,4 +91,7 @@ void MainWindow::setup_vtk_pipeline()
 
   ui->opacity_slider->setRange(0, 100);
   ui->opacity_slider->setValue(static_cast<int>(opacity * 100));
+
+  ui->point_size_slider->setRange(1, 20);
+  ui->point_size_slider->setValue(static_cast<int>(pointSize));
 }

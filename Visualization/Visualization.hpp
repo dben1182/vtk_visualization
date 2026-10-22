@@ -14,7 +14,7 @@ namespace Visualization {
 // opacity is in [0, 1].
 vtkSmartPointer<vtkActor> create_threshold_actor(vtkPolyData* cloud, double intensityCutoffThreshold,
                                                  vtkSmartPointer<vtkThresholdPoints>* outFilter = nullptr,
-                                                 double opacity = 1.0);
+                                                 double opacity = 1.0, double pointSize = 1.0);
 
 }
 

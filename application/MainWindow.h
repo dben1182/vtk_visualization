@@ -24,6 +24,7 @@ public:
 private slots:
   void on_cutoff_threshold_slider_valueChanged(int value);
     void on_opacity_slider_valueChanged(int value);
+  void on_point_size_slider_valueChanged(int value);
 
   private:
   void setup_vtk_pipeline();
