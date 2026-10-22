@@ -7,8 +7,8 @@
 #include <vtkProperty.h>
 #include <vtkThresholdPoints.h>
 
-vtkSmartPointer<vtkActor> Visualization::create_threshold_actor(vtkPolyData* cloud, double intensityCutoffThreshold,
-                                                              vtkSmartPointer<vtkThresholdPoints>* outFilter)
+vtkSmartPointer<vtkActor> Visualization::create_threshold_actor(vtkPolyData* cloud, double intensityCutoffThreshold, 
+                                                              vtkSmartPointer<vtkThresholdPoints>* outFilter, double opacity)
 {
     auto threshold = vtkSmartPointer<vtkThresholdPoints>::New();
     threshold->SetInputData(cloud);
@@ -29,6 +29,7 @@ vtkSmartPointer<vtkActor> Visualization::create_threshold_actor(vtkPolyData* clo
     auto actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
     actor->GetProperty()->SetPointSize(8.0);
+    actor->GetProperty()->SetOpacity(opacity);
     if (outFilter)
         *outFilter = threshold;
     return actor;

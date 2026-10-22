@@ -8,6 +8,7 @@
 #include <vtkActor.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <vtkPolyData.h>
+#include <vtkProperty.h>
 #include <vtkRenderer.h>
 #include <vtkSmartPointer.h>
 #include <vtkThresholdPoints.h>
@@ -45,15 +46,27 @@ void MainWindow::on_cutoff_threshold_slider_valueChanged(int value)
   mQVtkWidget->renderWindow()->Render();
 }
 
+void MainWindow::on_opacity_slider_valueChanged(int value)
+{
+  ui->opacity_label->setText(QString("opacity: %1%").arg(value));
+
+  if (!mCloudActor)
+    return;
+
+  mCloudActor->GetProperty()->SetOpacity(value / 100.0);
+  mQVtkWidget->renderWindow()->Render();
+}
+
 void MainWindow::setup_vtk_pipeline()
 {
   const int intensityCutoffThreshold = 200;
+  const double opacity = 0.5;
 
   auto cloud = DataConversion::create_poly_data(TestData::testData1());
-  auto cloudActor = Visualization::create_threshold_actor(cloud, intensityCutoffThreshold, &mThresholdFilter);
+  mCloudActor = Visualization::create_threshold_actor(cloud, intensityCutoffThreshold, &mThresholdFilter, opacity);
 
   mRenderer = vtkSmartPointer<vtkRenderer>::New();
-  mRenderer->AddActor(cloudActor);
+  mRenderer->AddActor(mCloudActor);
 
   auto window = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
   window->AddRenderer(mRenderer);
@@ -63,4 +76,7 @@ void MainWindow::setup_vtk_pipeline()
 
   ui->cutoff_threshold_slider->setRange(0, 255);
   ui->cutoff_threshold_slider->setValue(intensityCutoffThreshold);
+
+  ui->opacity_slider->setRange(0, 100);
+  ui->opacity_slider->setValue(static_cast<int>(opacity * 100));
 }
