@@ -26,11 +26,13 @@ private slots:
     void on_opacity_slider_valueChanged(int value);
   void on_point_size_slider_valueChanged(int value);
   void on_reset_button_clicked();
+  void on_spherical_points_check_box_toggled(bool checked);
 
 private:
   static constexpr int kDefaultCutoffThreshold = 200;
-  static constexpr int kDefaultOpacityPercent = 50;
+  static constexpr int kDefaultOpacityPercent = 100;
   static constexpr int kDefaultPointSize = 8;
+  static constexpr bool kDefaultSphericalPoints = true;
 
   void setup_vtk_pipeline();
   Ui::MainWindow *ui;

@@ -68,12 +68,22 @@ void MainWindow::on_point_size_slider_valueChanged(int value)
   mQVtkWidget->renderWindow()->Render();
 }
 
+void MainWindow::on_spherical_points_check_box_toggled(bool checked)
+{
+  if (!mCloudActor)
+    return;
+
+  mCloudActor->GetProperty()->SetRenderPointsAsSpheres(checked);
+  mQVtkWidget->renderWindow()->Render();
+}
+
 void MainWindow::on_reset_button_clicked()
 {
   // Setting the sliders emits valueChanged, which updates labels and the render
   ui->cutoff_threshold_slider->setValue(kDefaultCutoffThreshold);
   ui->opacity_slider->setValue(kDefaultOpacityPercent);
   ui->point_size_slider->setValue(kDefaultPointSize);
+  ui->spherical_points_check_box->setChecked(kDefaultSphericalPoints);
 }
 
 void MainWindow::setup_vtk_pipeline()
@@ -102,4 +112,7 @@ void MainWindow::setup_vtk_pipeline()
 
   ui->point_size_slider->setRange(1, 20);
   ui->point_size_slider->setValue(static_cast<int>(pointSize));
+
+  // Toggling the box fires the slot, which applies the setting to the actor
+  ui->spherical_points_check_box->setChecked(kDefaultSphericalPoints);
 }
