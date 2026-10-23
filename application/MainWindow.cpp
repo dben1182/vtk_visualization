@@ -84,7 +84,7 @@ void MainWindow::setup_vtk_pipeline()
   const double opacity = kDefaultOpacityPercent / 100.0;
   const int pointSize = kDefaultPointSize;
 
-  auto cloud = DataConversion::create_poly_data(TestData::testData1());
+  auto cloud = DataConversion::create_poly_data(TestData::testData2());
   mCloudActor = Visualization::create_gaussian_cloud_actor(cloud, intensityCutoffThreshold, &mThresholdFilter,
                                                            opacity, pointSize / 100.0 * kMaxSplatRadius);
 
