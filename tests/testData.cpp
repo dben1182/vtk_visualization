@@ -8,11 +8,11 @@ std::vector<Point> TestData::testData1()
     std::uniform_real_distribution<double> intensity(0.0, 255.0);
 
     std::vector<Point> points;
-    for (int z = 0; z < 20; ++z)
+    for (int z = 0; z < 50; ++z)
     {
-        for (int y = 0; y < 20; ++y)
+        for (int y = 0; y < 50; ++y)
         {
-            for (int x = 0; x < 20; ++x)
+            for (int x = 0; x < 50; ++x)
             {
                 Point p;
                 p.x = x;
