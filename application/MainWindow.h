@@ -28,8 +28,8 @@ private slots:
   void on_reset_button_clicked();
 
 private:
-  static constexpr int kDefaultCutoffThreshold = 200;
-  static constexpr int kDefaultOpacityPercent = 100;
+  static constexpr int kDefaultCutoffThreshold = 128;
+  static constexpr int kDefaultOpacityPercent = 50;
   // The splat size slider is a percentage (1-100) of the maximum splat radius, in world units
   static constexpr double kMaxSplatRadius = 0.25;
   static constexpr int kDefaultPointSize = 50;     // percent

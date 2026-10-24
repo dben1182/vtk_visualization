@@ -11,7 +11,7 @@ namespace TestData {
 std::vector<Point> testData1();
 
 // Defaults for testData2().
-constexpr int kCubeSize = 50;
+constexpr int kCubeSize = 100;
 constexpr double kViaRadius = 8;      // via diameter 16 px
 constexpr double kRingWidth = 1.5;       // Gaussian sigma of the via-wall ring
 constexpr double kFalloffLength = 4.0;   // exponential decay length of surface diffusion
@@ -21,10 +21,10 @@ constexpr int kScatterDepth = 8;             // planes within this distance of a
 constexpr double kScatterDecayLength = 2.0;  // scatter probability decays as exp(-(d-1)/this)
 constexpr double kScatterMaxProbability = 0.5;  // fraction of voxels scattered on the plane next to a surface
 
-// 50x50x50 simulated confocal scan. Every voxel is first given a random intensity in
+// 100x100x100 simulated confocal scan. Every voxel is first given a random intensity in
 // [0, baseMaxIntensity]. Planes within scatterDepth of a surface then get bright random
 // scatter outside the via, strongest next to the surface and decaying quickly with depth.
-// Surfaces (z = 0, 49) are then overwritten: bright outside a
+// Surfaces (z = 0, 99) are then overwritten: bright outside a
 // central cylindrical through-via and 0 inside it. Interior planes take the max of the
 // random base, a bright ring at the via wall, and surface-diffusion glow decaying into
 // the interior. Intensity is in [0, 255]; points are ordered z-major, then y, then x.
